@@ -1,0 +1,26 @@
+{
+  "name": "VocabScroll Pro",
+  "short_name": "VocabScroll",
+  "description": "BCS ও সরকারি চাকরির জন্য ইংরেজি vocabulary",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f3ec",
+  "theme_color": "#c0392b",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "https://placehold.co/192x192/c0392b/ffffff?text=V",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://placehold.co/512x512/c0392b/ffffff?text=V",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
