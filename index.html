@@ -6,6 +6,11 @@
 <title>VocabScroll Pro — Daily Star Editorial Master</title>
 <meta name="theme-color" content="#c0392b">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="VocabScroll">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 * {
   margin: 0;
@@ -499,6 +504,14 @@ body {
       <button class="src-option" data-src="New Age Bangladesh">📌 New Age</button>
       <button class="src-option" data-src="The Business Standard Bangladesh">💼 Business Standard</button>
     </div>
+    <div id="editorial-link-bar" style="background:#1a4a7a;padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid #d4ccbc;">
+      <span style="font-size:12px;color:#aac4e0;font-weight:600;">📰 আজকের Editorial:</span>
+      <a id="editorial-link" href="https://www.thedailystar.net/opinion/editorial" target="_blank" 
+         style="font-size:12px;color:#7ec8e3;text-decoration:underline;word-break:break-all;">
+        thedailystar.net/opinion/editorial
+      </a>
+      <span style="font-size:11px;color:#7a9ab0;margin-left:auto;">📖 পড়ুন → Vocabulary আনুন</span>
+    </div>
 
     <button class="fetch-btn" id="mainFetchBtn">
       🔍 <span id="fetchLabel">আজকের Editorial (১৫ শব্দ + ৩ phrase + ২ idiom)</span>
@@ -767,17 +780,42 @@ body {
     const seenWords = getSeenWords();
     const seenExclude = seenWords.slice(-120).join(', ');
     
-    const promptInstruction = `You are a vocabulary expert for Bangladesh government job exams (BCS/Bank/Public Service). 
-You MUST extract vocabulary from a real editorial-like context of "${activeSource}" newspaper (Bangladesh). 
-Return ONLY valid JSON array with exactly:
-- 15 objects with "type": "word"
-- 3 objects with "type": "phrase"
-- 2 objects with "type": "idiom"
-Total 20 objects.
-IMPORTANT: Do NOT repeat any words from this exclude list: ${seenExclude || 'none yet'}.
-Each object must have fields: "type", "entry", "bangla" (বাংলা অর্থ ও ব্যাখ্যা ২-৩ বাক্য), "synonyms" (array of 2-4), "antonyms" (array of 0-3), "example" (sentence).
-Focus on advanced/formal vocabulary relevant to editorial, current affairs, governance, economy.
-Return ONLY raw JSON array, no extra text. Example: [{"type":"word","entry":"exemplary","bangla":"অনুকরণীয়...","synonyms":["model"],"antonyms":["poor"],"example":"..."}]`;
+    const sourceTopics = {
+      "The Daily Star": "governance, democracy, human rights, economic policy, diplomacy, social issues in Bangladesh",
+      "New Age Bangladesh": "politics, civil society, environment, education, labor rights in Bangladesh",
+      "The Business Standard Bangladesh": "economy, trade, finance, investment, banking, industry in Bangladesh"
+    };
+    const topicFocus = sourceTopics[activeSource] || "governance and economy";
+    const editorialLink = EDITORIAL_LINKS[activeSource]?.url || "https://www.thedailystar.net/opinion/editorial";
+
+    const promptInstruction = `You are a vocabulary expert for Bangladesh government job exams (BCS/Bank/Public Service).
+
+Source: "${activeSource}" newspaper (Bangladesh)
+Editorial URL: ${editorialLink}
+Topic focus: ${topicFocus}
+Date: ${todayStr}
+
+Generate vocabulary as if carefully extracted from today's real editorial of this newspaper. Make the words and phrases genuinely reflect the kind of language used in this specific newspaper's editorial style.
+
+STRICTLY EXCLUDE these already-learned words: ${seenExclude || 'none yet'}
+
+Return ONLY a valid JSON array with EXACTLY:
+- 15 objects with "type": "word" — advanced/formal words from editorial context
+- 3 objects with "type": "phrase" — multi-word expressions (e.g. "fiscal consolidation", "rule of law", "vested interests")
+- 2 objects with "type": "idiom" — common English idioms (e.g. "bite the bullet", "burning issue")
+Total: exactly 20 objects.
+
+Each object MUST have:
+{
+  "type": "word"|"phrase"|"idiom",
+  "entry": "the English word/phrase/idiom",
+  "bangla": "বাংলা অর্থ ও ব্যাখ্যা ২-৩ বাক্যে",
+  "synonyms": ["2-4 synonyms"],
+  "antonyms": ["0-3 antonyms or []"],
+  "example": "One clear example sentence showing usage in an editorial context."
+}
+
+Return ONLY the raw JSON array. No markdown, no explanation, no extra text.`;
     
     try {
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
