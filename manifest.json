@@ -1,7 +1,7 @@
 {
   "name": "VocabScroll Pro",
   "short_name": "VocabScroll",
-  "description": "BCS ও সরকারি চাকরির জন্য ইংরেজি vocabulary",
+  "description": "BCS ও সরকারি চাকরির জন্য পত্রিকার Editorial থেকে vocabulary শিখুন",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -9,7 +9,23 @@
   "background_color": "#f7f3ec",
   "theme_color": "#c0392b",
   "lang": "bn",
+  "categories": ["education", "productivity"],
   "icons": [
+    {
+      "src": "https://placehold.co/72x72/c0392b/ffffff?text=V",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://placehold.co/96x96/c0392b/ffffff?text=V",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://placehold.co/128x128/c0392b/ffffff?text=V",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
     {
       "src": "https://placehold.co/192x192/c0392b/ffffff?text=V",
       "sizes": "192x192",
@@ -21,6 +37,14 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Star Vocab",
+      "short_name": "Daily Star",
+      "description": "Daily Star Editorial vocabulary",
+      "url": "./index.html"
     }
   ]
 }
