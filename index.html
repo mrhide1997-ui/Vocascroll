@@ -1,1024 +1,862 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>VocabScroll Pro — Daily Star Editorial Master</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VocabScroll Pro — BD Gov Job</title>
 <meta name="theme-color" content="#c0392b">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="VocabScroll">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="https://placehold.co/192x192/c0392b/ffffff?text=V">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 :root {
-  --ink: #12100e;
-  --paper: #f7f3ec;
-  --cream: #fdfaf5;
-  --accent: #c0392b;
-  --gold: #b8860b;
-  --green: #1a6b3c;
-  --blue: #1a4a7a;
-  --muted: #7a7060;
-  --border: #d4ccbc;
+  --ink: #12100e; --paper: #f7f3ec; --cream: #fdfaf5;
+  --accent: #c0392b; --gold: #b8860b; --green: #1a6b3c;
+  --blue: #1a4a7a; --muted: #7a7060; --border: #d4ccbc;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--paper); color:var(--ink); font-family:'Lora',serif; min-height:100vh; }
+
+nav {
+  background:var(--ink); display:flex; align-items:center;
+  justify-content:space-between; padding:11px 16px;
+  position:sticky; top:0; z-index:200; border-bottom:3px solid var(--accent);
+}
+.nav-brand { font-family:'Playfair Display',serif; color:#f7f3ec; font-size:1.15rem; }
+.nav-brand span { color:var(--gold); }
+.nav-tabs { display:flex; gap:4px; }
+.nav-tab {
+  padding:6px 11px; font-family:'Lora',serif; font-size:.73rem;
+  border:1px solid #444; background:transparent; color:#bbb;
+  cursor:pointer; transition:all .2s;
+}
+.nav-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+main { max-width:700px; margin:0 auto; padding:16px 14px 80px; }
+
+.date-strip {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--ink);
+}
+.date-strip h2 { font-family:'Playfair Display',serif; font-size:.98rem; }
+.date-meta { font-size:.71rem; color:var(--muted); }
+
+.timer-bar {
+  text-align:center; font-size:.71rem; color:var(--muted);
+  padding:8px; border:1px dashed var(--border); margin-bottom:14px;
 }
 
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: 'Georgia', 'Times New Roman', Times, serif;
-  line-height: 1.4;
+.source-tabs { display:flex; margin-bottom:14px; border:1.5px solid var(--border); }
+.src-tab {
+  flex:1; padding:9px 4px; text-align:center; font-size:.74rem;
+  cursor:pointer; background:var(--cream); border:none;
+  border-right:1px solid var(--border); font-family:'Lora',serif; color:var(--muted); transition:all .2s;
 }
-
-.container {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 0 16px 70px 16px;
-}
-
-/* header */
-.header {
-  background: var(--ink);
-  padding: 14px 18px;
-  border-bottom: 4px solid var(--accent);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.logo {
-  font-size: 1.35rem;
-  font-weight: 800;
-  font-family: 'Trebuchet MS', 'Playfair Display', serif;
-  color: #f7f3ec;
-  letter-spacing: -0.3px;
-}
-
-.logo span {
-  color: var(--gold);
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.nav-btn {
-  background: transparent;
-  border: 1px solid #6a5c4c;
-  padding: 6px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #e0d6c8;
-  cursor: pointer;
-  border-radius: 30px;
-  transition: all 0.2s;
-}
-
-.nav-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-/* info row */
-.info-strip {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin: 16px 0 12px 0;
-  border-bottom: 2px solid var(--border);
-  padding-bottom: 8px;
-}
-
-.date-box h2 {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.date-meta {
-  font-size: 0.7rem;
-  color: var(--muted);
-}
-
-.source-badge {
-  background: var(--green);
-  color: white;
-  padding: 4px 12px;
-  font-size: 0.7rem;
-  border-radius: 40px;
-}
-
-.timer-card {
-  background: #ece4d8;
-  padding: 10px 14px;
-  font-size: 0.75rem;
-  text-align: center;
-  border-left: 5px solid var(--accent);
-  margin-bottom: 18px;
-  font-family: monospace;
-  letter-spacing: 0.3px;
-}
-
-.source-switch {
-  display: flex;
-  gap: 0;
-  margin-bottom: 18px;
-  border: 1.5px solid var(--border);
-}
-
-.src-option {
-  flex: 1;
-  text-align: center;
-  padding: 10px 6px;
-  background: var(--cream);
-  font-weight: 600;
-  font-size: 0.8rem;
-  cursor: pointer;
-  border: none;
-  transition: 0.1s linear;
-  color: #4a3e30;
-}
-
-.src-option.active {
-  background: var(--ink);
-  color: #fef7e8;
-}
+.src-tab:last-child { border-right:none; }
+.src-tab.active { background:var(--ink); color:#f7f3ec; }
 
 .fetch-btn {
-  width: 100%;
-  padding: 14px;
-  background: var(--accent);
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  border-radius: 0px;
-  margin-bottom: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.2s;
+  width:100%; padding:13px; background:var(--accent); color:#fff;
+  border:none; font-family:'Playfair Display',serif; font-size:.95rem;
+  cursor:pointer; transition:background .2s; margin-bottom:18px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
 }
+.fetch-btn:hover { background:#a32923; }
+.fetch-btn:disabled { background:var(--muted); cursor:not-allowed; }
 
-.fetch-btn:disabled {
-  background: #9c8e7c;
-  cursor: not-allowed;
-}
-
-.loading-panel {
-  display: none;
-  background: var(--cream);
-  padding: 30px 20px;
-  text-align: center;
-  border: 1px solid var(--border);
-  margin-bottom: 20px;
-}
-
+#loading { display:none; text-align:center; padding:44px 20px; color:var(--muted); }
 .spinner {
-  width: 44px;
-  height: 44px;
-  border: 4px solid #ddd;
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  margin: 0 auto 15px;
-  animation: spin 0.7s infinite linear;
+  width:34px; height:34px; border:3px solid #ddd;
+  border-top-color:var(--accent); border-radius:50%;
+  animation:spin .8s linear infinite; margin:0 auto 14px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.lstep { font-size:.82rem; line-height:2.2; opacity:.3; transition:opacity .3s; }
+.lstep.on { opacity:1; color:var(--ink); }
+
+#empty-state { text-align:center; padding:48px 20px; color:var(--muted); }
+.empty-icon { font-size:2.8rem; margin-bottom:12px; }
+
+.sec-head {
+  display:flex; align-items:center; gap:8px;
+  margin:22px 0 11px; padding-bottom:6px; border-bottom:2px solid var(--border);
+}
+.sec-head h3 { font-family:'Playfair Display',serif; font-size:.98rem; }
+.sec-pill { font-size:.62rem; padding:2px 8px; letter-spacing:.08em; text-transform:uppercase; }
+.pw { background:var(--blue); color:#fff; }
+.pp { background:var(--gold); color:#fff; }
+.pi { background:var(--green); color:#fff; }
+.sec-cnt { margin-left:auto; font-size:.71rem; color:var(--muted); }
+
+.vcard {
+  background:var(--cream); border:1.5px solid var(--border);
+  margin-bottom:13px; padding:18px 15px 14px;
+  box-shadow:3px 3px 0 #e0d8ca; position:relative;
+  animation:fadeUp .35s ease both; transition:transform .15s;
+}
+.vcard:hover { transform:translateY(-2px); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.ctag {
+  position:absolute; top:-9px; left:13px;
+  font-size:.6rem; padding:2px 9px; letter-spacing:.07em;
+}
+.tw { background:var(--blue); color:#fff; }
+.tp { background:var(--gold); color:#fff; }
+.ti { background:var(--green); color:#fff; }
+.cnum { position:absolute; top:10px; right:13px; font-size:.68rem; color:var(--muted); font-style:italic; }
+.ctitle { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; margin-bottom:11px; }
+.flabel { font-size:.58rem; text-transform:uppercase; letter-spacing:.12em; color:var(--accent); margin-bottom:3px; }
+.fbn { font-size:.93rem; line-height:1.55; color:#2a1e10; margin-bottom:10px; }
+.crow { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+.chips { display:flex; flex-wrap:wrap; gap:5px; }
+.chip { font-size:.7rem; padding:2px 8px; border:1px solid; }
+.chs { border-color:var(--blue); color:var(--blue); }
+.cha { border-color:var(--accent); color:var(--accent); }
+.exbox {
+  background:#f0ebe0; border-left:3px solid var(--gold);
+  padding:9px 12px; font-style:italic; font-size:.83rem; line-height:1.55; color:#3a3020;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* FLASHCARD */
+#flashcard-view { display:none; }
+.fpbar { height:3px; background:#ddd; margin-bottom:14px; }
+.fpfill { height:100%; background:var(--accent); transition:width .4s; }
+.fptxt { text-align:center; font-size:.73rem; color:var(--muted); margin-bottom:8px; }
+.fcard {
+  background:var(--cream); border:2px solid var(--ink);
+  min-height:260px; padding:28px 20px;
+  display:flex; flex-direction:column; justify-content:center;
+  align-items:center; text-align:center;
+  cursor:pointer; box-shadow:5px 5px 0 var(--ink); position:relative;
 }
-
-.step {
-  font-size: 0.85rem;
-  opacity: 0.4;
-  margin: 6px 0;
-  transition: 0.2s;
+.fcard:active { transform:scale(.98); }
+.fbadge { position:absolute; top:11px; left:13px; font-size:.59rem; padding:2px 8px; }
+.fhint { font-size:.7rem; color:var(--muted); margin-bottom:12px; }
+.fword { font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:900; }
+.fline { width:36px; height:2px; background:var(--accent); margin:14px auto; }
+.fans { display:none; width:100%; }
+.fans.show { display:block; }
+.fbntxt { font-size:1rem; margin-bottom:10px; color:#2a1e10; }
+.frow { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; margin-bottom:6px; }
+.fex { font-style:italic; font-size:.79rem; color:#555; margin-top:8px; }
+.facts { display:flex; gap:10px; margin-top:16px; }
+.fbtn {
+  flex:1; padding:12px; border:none; font-family:'Lora',serif;
+  font-size:.86rem; cursor:pointer; font-weight:600; transition:all .2s;
 }
-
-.step.active {
-  opacity: 1;
-  color: var(--ink);
-  font-weight: 600;
+.fhard { background:#f0e0de; color:var(--accent); border:1.5px solid var(--accent); }
+.fhard:hover { background:var(--accent); color:#fff; }
+.feasy { background:#ddf0e6; color:var(--green); border:1.5px solid var(--green); }
+.feasy:hover { background:var(--green); color:#fff; }
+.fresult {
+  display:none; text-align:center; padding:28px 20px;
+  background:var(--cream); border:1.5px solid var(--border);
 }
-
-.empty {
-  text-align: center;
-  padding: 55px 20px;
-  background: var(--cream);
-  color: #7f6e5a;
-  border: 1px dashed var(--border);
+.fresult h3 { font-family:'Playfair Display',serif; font-size:1.3rem; margin-bottom:8px; }
+.sbig { font-size:2.2rem; font-weight:700; color:var(--green); }
+.frestart {
+  margin-top:14px; padding:11px 26px; background:var(--ink);
+  color:#fff; border:none; font-family:'Lora',serif; cursor:pointer; font-size:.87rem;
 }
+#fc-empty { display:none; text-align:center; padding:48px 20px; color:var(--muted); }
 
-.section-header {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin: 28px 0 12px 0;
-  padding-bottom: 5px;
-  border-bottom: 2px solid var(--border);
+/* HISTORY */
+#history-view { display:none; }
+.hcard { margin-bottom:14px; border:1.5px solid var(--border); background:var(--cream); }
+.hhead {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 13px; background:var(--ink); color:#f7f3ec; cursor:pointer;
 }
+.hhead h4 { font-family:'Playfair Display',serif; font-size:.92rem; }
+.hbody { padding:12px 13px; display:none; }
+.hbody.open { display:block; }
+.hchips { display:flex; flex-wrap:wrap; gap:5px; }
+.hchip { font-size:.73rem; padding:3px 9px; color:#fff; }
 
-.section-header h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-}
-
-.section-badge {
-  font-size: 0.6rem;
-  padding: 2px 10px;
-  background: #2c5f2d;
-  color: white;
-  letter-spacing: 1px;
-}
-
-/* cards */
-.vocab-card {
-  background: white;
-  border: 1px solid var(--border);
-  margin-bottom: 16px;
-  padding: 18px 16px;
-  box-shadow: 4px 4px 0 #e4dbce;
-  transition: 0.1s linear;
-}
-
-.card-label {
-  display: inline-block;
-  font-size: 0.6rem;
-  padding: 2px 12px;
-  background: var(--blue);
-  color: white;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.word-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  font-family: 'Playfair Display', 'Georgia', serif;
-  margin-bottom: 8px;
-}
-
-.bangla-def {
-  font-size: 0.9rem;
-  background: #fef5e8;
-  padding: 8px 12px;
-  margin: 8px 0;
-  border-left: 4px solid var(--gold);
-}
-
-.row-syn-ant {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 8px 0;
-}
-
-.chip-group {
-  flex: 1;
-}
-
-.chip-label {
-  font-size: 0.6rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.chip {
-  display: inline-block;
-  background: #f0eade;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  margin: 3px 4px 0 0;
-}
-
-.example-box {
-  background: #f4ede2;
-  padding: 9px 12px;
-  font-style: italic;
-  margin-top: 12px;
-  font-size: 0.8rem;
-  border-left: 3px solid var(--gold);
-}
-
-/* flashcard */
-.flash-panel {
-  display: none;
-}
-
-.progress-text {
-  text-align: center;
-  font-size: 0.75rem;
-  margin: 10px 0 5px;
-}
-
-.progress-bar {
-  height: 4px;
-  background: #ddd;
-  margin-bottom: 14px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  width: 0%;
-  transition: 0.2s;
-}
-
-.card-flip {
-  background: var(--cream);
-  border: 2px solid var(--ink);
-  min-height: 280px;
-  padding: 30px 20px;
-  text-align: center;
-  cursor: pointer;
-  box-shadow: 5px 5px 0 var(--ink);
-  margin-bottom: 20px;
-}
-
-.card-flip:active {
-  transform: scale(0.99);
-}
-
-.flip-word {
-  font-size: 1.8rem;
-  font-weight: 800;
-  font-family: 'Playfair Display', serif;
-  margin: 15px 0;
-}
-
-.flip-hint {
-  font-size: 0.7rem;
-  color: var(--muted);
-  margin-top: 8px;
-}
-
-.flip-answer {
-  display: none;
-}
-
-.flip-answer.show {
-  display: block;
-  margin-top: 18px;
-}
-
-.flip-def {
-  font-size: 1rem;
-  background: #fcf3e6;
-  padding: 8px;
-}
-
-.flip-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 18px;
-}
-
-.btn-hard, .btn-easy {
-  flex: 1;
-  padding: 12px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-hard {
-  background: #f7deda;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-}
-
-.btn-easy {
-  background: #d9f0e3;
-  color: var(--green);
-  border: 1px solid var(--green);
-}
-
-.result-box {
-  background: var(--cream);
-  text-align: center;
-  padding: 32px;
-  border: 2px solid var(--border);
-  display: none;
-}
-
-.result-score {
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: var(--green);
-}
-
-.restart-btn {
-  margin-top: 15px;
-  background: var(--ink);
-  color: white;
-  border: none;
-  padding: 10px 26px;
-  cursor: pointer;
-}
-
-/* history */
-.history-panel {
-  display: none;
-}
-
-.history-item {
-  background: var(--cream);
-  border: 1px solid var(--border);
-  margin-bottom: 14px;
-}
-
-.history-head {
-  background: var(--ink);
-  color: #f3ede3;
-  padding: 10px 14px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-
-.history-body {
-  padding: 10px 12px;
-  display: none;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.history-body.open {
-  display: flex;
-}
-
-.hist-tag {
-  background: #e7dfd3;
-  padding: 4px 10px;
-  font-size: 0.75rem;
-  border-radius: 40px;
-}
-
-@media (max-width: 500px) {
-  .word-title { font-size: 1.2rem; }
-  .flip-word { font-size: 1.3rem; }
+@media(max-width:420px){
+  .crow { grid-template-columns:1fr; }
+  .fword { font-size:1.55rem; }
+  .nav-tab { padding:5px 7px; font-size:.67rem; }
 }
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="logo">📖 Vocab<span>Scroll</span> <span style="font-size: 0.7rem;">| Daily Star</span></div>
-  <div class="nav-buttons">
-    <button class="nav-btn active" data-view="feed">আজকের</button>
-    <button class="nav-btn" data-view="flash">ফ্ল্যাশকার্ড</button>
-    <button class="nav-btn" data-view="history">ইতিহাস</button>
+
+<nav>
+  <div class="nav-brand">📰 Vocab<span>Scroll</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showView('feed')">আজকের</button>
+    <button class="nav-tab" onclick="showView('flashcard')">Flashcard</button>
+    <button class="nav-tab" onclick="showView('history')">ইতিহাস</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- FEED -->
+<div id="feed-view">
+  <div class="date-strip">
+    <div>
+      <h2 id="today-date">আজকের Vocabulary</h2>
+      <div class="date-meta" id="last-upd">লোড হয়নি</div>
+    </div>
+    <div style="font-size:.68rem;background:var(--green);color:#fff;padding:3px 9px">⏰ ৮:০০ AM</div>
+  </div>
+
+  <div class="timer-bar" id="timer-bar">লোড হচ্ছে...</div>
+
+  <div class="source-tabs">
+    <button class="src-tab active" data-src="The Daily Star" onclick="pickSrc(this)">Daily Star</button>
+    <button class="src-tab" data-src="New Age Bangladesh" onclick="pickSrc(this)">New Age</button>
+    <button class="src-tab" data-src="The Business Standard Bangladesh" onclick="pickSrc(this)">Business Std</button>
+  </div>
+
+  <button class="fetch-btn" id="fetch-btn" onclick="doFetch()">
+    🔍 <span id="fetch-label">আজকের Editorial থেকে Vocabulary আনো</span>
+  </button>
+
+  <div id="loading">
+    <div class="spinner"></div>
+    <div class="lstep" id="s1">📡 Editorial খুঁজছি...</div>
+    <div class="lstep" id="s2">📖 Editorial পড়ছি...</div>
+    <div class="lstep" id="s3">🧠 Vocabulary বের করছি...</div>
+    <div class="lstep" id="s4">💾 Save করছি...</div>
+  </div>
+
+  <div id="empty-state">
+    <div class="empty-icon">📰</div>
+    <p>source বেছে নিন, তারপর button চাপুন।<br><br>
+    <small>প্রতিদিন সকাল ৮টায় auto-update হবে।</small></p>
+  </div>
+
+  <div id="sec-w" style="display:none">
+    <div class="sec-head"><h3>Words</h3><span class="sec-pill pw">শব্দ</span><span class="sec-cnt" id="cnt-w"></span></div>
+    <div id="box-w"></div>
+  </div>
+  <div id="sec-p" style="display:none">
+    <div class="sec-head"><h3>Phrases</h3><span class="sec-pill pp">বাগধারা</span><span class="sec-cnt" id="cnt-p"></span></div>
+    <div id="box-p"></div>
+  </div>
+  <div id="sec-i" style="display:none">
+    <div class="sec-head"><h3>Idioms</h3><span class="sec-pill pi">প্রবাদ</span><span class="sec-cnt" id="cnt-i"></span></div>
+    <div id="box-i"></div>
   </div>
 </div>
 
-<div class="container">
-  <!-- FEED SECTION -->
-  <div id="feedSection">
-    <div class="info-strip">
-      <div class="date-box">
-        <h2 id="displayDate"></h2>
-        <div class="date-meta" id="updateStatus">শেষ আপডেট: নেই</div>
+<!-- FLASHCARD -->
+<div id="flashcard-view">
+  <div id="fc-main" style="display:none">
+    <div class="fptxt" id="fptxt">0 / 0</div>
+    <div class="fpbar"><div class="fpfill" id="fpfill"></div></div>
+    <div class="fcard" id="fcard" onclick="fcReveal()">
+      <span class="fbadge tw" id="ftype">WORD</span>
+      <div class="fhint">👆 tap করুন উত্তর দেখতে</div>
+      <div class="fword" id="fword">—</div>
+      <div class="fline"></div>
+      <div class="fans" id="fans">
+        <div class="fbntxt" id="fbn"></div>
+        <div class="frow" id="fsyn"></div>
+        <div class="frow" id="fant"></div>
+        <div class="fex" id="fex"></div>
       </div>
-      <div class="source-badge">🎯 The Daily Star</div>
     </div>
-    <div class="timer-card" id="timerCard">⏳ লোড হচ্ছে টাইমার...</div>
-    
-    <div class="source-switch">
-      <button class="src-option active" data-src="The Daily Star">📰 Daily Star</button>
-      <button class="src-option" data-src="New Age Bangladesh">📌 New Age</button>
-      <button class="src-option" data-src="The Business Standard Bangladesh">💼 Business Standard</button>
-    </div>
-    <div id="editorial-link-bar" style="background:#1a4a7a;padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid #d4ccbc;">
-      <span style="font-size:12px;color:#aac4e0;font-weight:600;">📰 আজকের Editorial:</span>
-      <a id="editorial-link" href="https://www.thedailystar.net/opinion/editorial" target="_blank" 
-         style="font-size:12px;color:#7ec8e3;text-decoration:underline;word-break:break-all;">
-        thedailystar.net/opinion/editorial
-      </a>
-      <span style="font-size:11px;color:#7a9ab0;margin-left:auto;">📖 পড়ুন → Vocabulary আনুন</span>
-    </div>
-
-    <button class="fetch-btn" id="mainFetchBtn">
-      🔍 <span id="fetchLabel">আজকের Editorial (১৫ শব্দ + ৩ phrase + ২ idiom)</span>
-    </button>
-
-    <div id="loadingArea" class="loading-panel">
-      <div class="spinner"></div>
-      <div class="step" id="step1">📡 Daily Star ভাষ্য অনুসন্ধান...</div>
-      <div class="step" id="step2">📖 প্রতিদিনের বাক্য বিশ্লেষণ</div>
-      <div class="step" id="step3">🧠 শক্তিশালী vocabulary নির্যাসন</div>
-      <div class="step" id="step4">💾 সংরক্ষণ করা হচ্ছে</div>
-    </div>
-
-    <div id="emptyMessage" class="empty">
-      <div style="font-size: 2rem;">📰</div>
-      <p>বিঃদ্রঃ: নির্দিষ্ট ১৫টি শব্দ, ৩টি phrase ও ২টি idiom থাকবে।<br> "Vocabulary আনো" ক্লিক করুন।</p>
-    </div>
-
-    <div id="wordSection" style="display: none;">
-      <div class="section-header"><h3>📚 শব্দ (Word)</h3><span class="section-badge">১৫টি</span></div>
-      <div id="wordList"></div>
-    </div>
-    <div id="phraseSection" style="display: none;">
-      <div class="section-header"><h3>🔖 Phrase</h3><span class="section-badge">৩টি</span></div>
-      <div id="phraseList"></div>
-    </div>
-    <div id="idiomSection" style="display: none;">
-      <div class="section-header"><h3>✨ Idiom</h3><span class="section-badge">২টি</span></div>
-      <div id="idiomList"></div>
+    <div class="facts" id="facts" style="display:none">
+      <button class="fbtn fhard" onclick="fcMark('hard')">😓 কঠিন</button>
+      <button class="fbtn feasy" onclick="fcMark('easy')">✅ জানি</button>
     </div>
   </div>
 
-  <!-- FLASHCARD SECTION -->
-  <div id="flashSection" class="flash-panel">
-    <div id="fcMainArea" style="display: none;">
-      <div class="progress-text" id="fcCounter">0 / 0</div>
-      <div class="progress-bar"><div class="progress-fill" id="fcFill"></div></div>
-      <div class="card-flip" id="flipCard">
-        <div style="font-size:0.65rem; background:#ccc; display:inline-block; padding:2px 10px;" id="fcTypeTag">WORD</div>
-        <div class="flip-word" id="fcWord">---</div>
-        <div class="flip-hint">👇 কার্ড ট্যাপ করুন উত্তর দেখতে</div>
-        <div class="flip-answer" id="fcAnswerArea">
-          <div class="flip-def" id="fcBanglaDef"></div>
-          <div style="margin: 8px 0;"><strong>সমার্থক:</strong> <span id="fcSyn"></span></div>
-          <div><strong>বিপরীতার্থক:</strong> <span id="fcAnt"></span></div>
-          <div style="margin-top: 8px; font-style:italic;" id="fcExample"></div>
-        </div>
-      </div>
-      <div class="flip-actions" id="fcActions" style="display: none;">
-        <button class="btn-hard" id="hardBtn">😓 কঠিন / আয়ত্ত হয়নি</button>
-        <button class="btn-easy" id="easyBtn">✅ জানি / মুখস্থ</button>
-      </div>
-    </div>
-    <div id="fcResultBox" class="result-box">
-      <h3>🎉 ফ্ল্যাশকার্ড শেষ!</h3>
-      <div class="result-score" id="finalScore">0/0</div>
-      <p id="resultStats"></p>
-      <button class="restart-btn" id="fcRestartBtn">🔄 নতুন করে শুরু করুন</button>
-    </div>
-    <div id="fcEmptyMsg" class="empty" style="display: none;">
-      <p>📭 আগে "আজকের" ট্যাব থেকে vocabulary লোড করুন।</p>
-    </div>
+  <div class="fresult" id="fresult">
+    <h3>🎉 Practice শেষ!</h3>
+    <div class="sbig" id="fscore"></div>
+    <div style="font-size:.81rem;color:var(--muted);margin-top:5px" id="fdetail"></div>
+    <button class="frestart" onclick="fcRestart()">🔄 আবার Practice করো</button>
   </div>
 
-  <!-- HISTORY -->
-  <div id="historySection" class="history-panel">
-    <div class="section-header"><h3>📜 পূর্ববর্তী সংগৃহীত ভোকাবুলারি</h3></div>
-    <div id="historyContainer"><div class="empty">ইতিহাস ফাঁকা</div></div>
+  <div id="fc-empty">
+    <div style="font-size:2.5rem;margin-bottom:12px">📭</div>
+    <p>প্রথমে "আজকের" ট্যাব থেকে vocabulary লোড করুন।</p>
   </div>
 </div>
+
+<!-- HISTORY -->
+<div id="history-view">
+  <div class="sec-head" style="margin-top:4px"><h3>পূর্ববর্তী Vocabulary</h3></div>
+  <div id="hist-box"><div style="text-align:center;padding:40px;color:var(--muted)"><p>এখনো ইতিহাস নেই।</p></div></div>
+</div>
+
+</main>
 
 <script>
-  // ---------- CONFIG ----------
-  const GROQ_API_KEY = "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";
-  const ADMIN_PASS = "vocab2025admin";
-  const SCHEDULE = [8, 14, 20]; // 8AM,2PM,8PM
-  let activeSource = "The Daily Star";
-  let currentVocab = [];        // store full array
-  let fcQueue = [];
-  let fcIndex = 0, fcEasyCount = 0, fcHardCount = 0, fcRevealed = false;
-  
-  // localStorage helpers
-  function getSlotKey(src, slotIndex) {
-    const today = new Date().toISOString().split('T')[0];
-    return `vs_pro_${src.replace(/\s/g,'_')}_${today}_slot${slotIndex}`;
-  }
-  function getCurrentSlot() {
-    const hour = new Date().getHours();
-    if (hour >= 20) return 2;
-    if (hour >= 14) return 1;
-    if (hour >= 8) return 0;
-    return -1;
-  }
-  function loadSlot(src) {
-    const slot = getCurrentSlot();
-    if (slot < 0) return null;
-    const raw = localStorage.getItem(getSlotKey(src, slot));
-    return raw ? JSON.parse(raw) : null;
-  }
-  function saveSlot(src, vocabArr) {
-    const slot = getCurrentSlot();
-    if (slot < 0) return;
-    localStorage.setItem(getSlotKey(src, slot), JSON.stringify(vocabArr));
-  }
-  function getHistoryStore() {
-    const raw = localStorage.getItem("vs_hist_main");
-    return raw ? JSON.parse(raw) : {};
-  }
-  function saveHistoryEntry(day, src, vocabArr) {
-    const hist = getHistoryStore();
-    const key = `${day}_${src.replace(/\s/g,'_')}`;
-    hist[key] = {
-      day: day,
-      src: src,
-      count: vocabArr.length,
-      items: vocabArr.map(v => ({ entry: v.entry, type: v.type }))
+let activeSrc = 'The Daily Star';
+let allVocab = [];
+let fcQueue = [], fcIdx = 0, fcRevealed = false, fcEasy = 0, fcHard = 0;
+
+// STORAGE
+const SK = 'vs_today', HK = 'vs_hist';
+function dayKey() { return new Date().toISOString().split('T')[0]; }
+
+function saveDay(src, vocab) {
+  try {
+    localStorage.setItem(SK, JSON.stringify({ day: dayKey(), src, vocab }));
+    let h = getHist();
+    h[dayKey() + '_' + src.replace(/\s+/g,'_')] = {
+      day: dayKey(), src, count: vocab.length,
+      items: vocab.map(v => ({ e: v.entry, t: v.type }))
     };
-    localStorage.setItem("vs_hist_main", JSON.stringify(hist));
-  }
-  function getSeenWords() {
-    return JSON.parse(localStorage.getItem("vs_seen_words") || '[]');
-  }
-  function addSeenWords(arr) {
-    let seen = getSeenWords();
-    arr.forEach(v => { if(!seen.includes(v.entry)) seen.push(v.entry); });
-    if(seen.length > 600) seen = seen.slice(-500);
-    localStorage.setItem("vs_seen_words", JSON.stringify(seen));
-  }
-  function isAdminMode() { return sessionStorage.getItem('admin_mode') === '1'; }
-
-  // ------------- UI helpers ------------
-  function updateFetchButtonState() {
-    const btn = document.getElementById('mainFetchBtn');
-    const labelSpan = document.getElementById('fetchLabel');
-    const slotNow = getCurrentSlot();
-    if (slotNow < 0) {
-      btn.disabled = true;
-      labelSpan.innerText = '⏰ সকাল ৮টার পরে আসবে';
-      return;
-    }
-    const existing = loadSlot(activeSource);
-    if (existing && !isAdminMode()) {
-      btn.disabled = true;
-      const nextTime = getNextUpdateText();
-      labelSpan.innerText = `⏳ পরবর্তী আপডেট: ${nextTime}`;
-      return;
-    }
-    btn.disabled = false;
-    labelSpan.innerText = isAdminMode() ? '🔓 Admin: এখনই আনো (১৫+৩+২)' : '📥 আনো (১৫টি শব্দ + ৩ phrase + ২ idiom)';
-  }
-  
-  function getNextUpdateText() {
-    const now = new Date();
-    let nextHour = SCHEDULE.find(h => h > now.getHours());
-    if (!nextHour) nextHour = 8;
-    let target = new Date(now);
-    if (nextHour <= now.getHours()) target.setDate(target.getDate()+1);
-    target.setHours(nextHour, 0, 0, 0);
-    const diff = target - now;
-    const hours = Math.floor(diff/3600000);
-    const mins = Math.floor((diff%3600000)/60000);
-    return `${hours} ঘণ্টা ${mins} মিনিট`;
-  }
-  
-  function startAutoTimer() {
-    const timerDiv = document.getElementById('timerCard');
-    function tick() {
-      const now = new Date();
-      let nextUpdate = new Date(now);
-      let found = SCHEDULE.find(h => h > now.getHours());
-      if(!found) {
-        nextUpdate.setDate(nextUpdate.getDate()+1);
-        nextUpdate.setHours(8,0,0,0);
-      } else {
-        nextUpdate.setHours(found,0,0,0);
-      }
-      const diff = nextUpdate - now;
-      if(diff <= 0) { timerDiv.innerText = '🔄 আপডেট সময় হয়েছে! রিফ্রেশ করুন'; return; }
-      const hr = Math.floor(diff/36e5);
-      const min = Math.floor((diff%36e5)/6e4);
-      timerDiv.innerText = `⏱️ পরবর্তী স্বয়ংক্রিয় আপডেট: ${hr} ঘ ${min} মি (সকাল/দুপুর/রাত ${nextUpdate.getHours()}:00)`;
-      setTimeout(tick, 1000);
-    }
-    tick();
-  }
-  
-  // render vocabulary feed
-  function renderFeed(vocabArray) {
-    if(!vocabArray || vocabArray.length === 0) return;
-    const words = vocabArray.filter(v => v.type === 'word');
-    const phrases = vocabArray.filter(v => v.type === 'phrase');
-    const idioms = vocabArray.filter(v => v.type === 'idiom');
-    document.getElementById('wordList').innerHTML = '';
-    document.getElementById('phraseList').innerHTML = '';
-    document.getElementById('idiomList').innerHTML = '';
-    
-    if(words.length) { 
-      document.getElementById('wordSection').style.display = 'block';
-      words.forEach(w => { document.getElementById('wordList').appendChild(createCard(w)); });
-    } else { document.getElementById('wordSection').style.display='none'; }
-    if(phrases.length) {
-      document.getElementById('phraseSection').style.display = 'block';
-      phrases.forEach(p => { document.getElementById('phraseList').appendChild(createCard(p)); });
-    } else { document.getElementById('phraseSection').style.display='none'; }
-    if(idioms.length) {
-      document.getElementById('idiomSection').style.display = 'block';
-      idioms.forEach(i => { document.getElementById('idiomList').appendChild(createCard(i)); });
-    } else { document.getElementById('idiomSection').style.display='none'; }
-    document.getElementById('emptyMessage').style.display = 'none';
-  }
-  
-  function createCard(item) {
-    const cardDiv = document.createElement('div');
-    cardDiv.className = 'vocab-card';
-    const typeLabel = item.type.toUpperCase();
-    let badgeColor = '#1a4a7a';
-    if(item.type === 'phrase') badgeColor = '#b8860b';
-    if(item.type === 'idiom') badgeColor = '#1a6b3c';
-    const synText = (item.synonyms || []).map(s => `<span class="chip">${escapeHtml(s)}</span>`).join('');
-    const antText = (item.antonyms || []).map(a => `<span class="chip">${escapeHtml(a)}</span>`).join('');
-    cardDiv.innerHTML = `
-      <div style="background:${badgeColor}; display:inline-block; padding:2px 10px; color:white; font-size:0.65rem;">${typeLabel}</div>
-      <div class="word-title">${escapeHtml(item.entry)}</div>
-      <div class="bangla-def">📖 ${escapeHtml(item.bangla)}</div>
-      <div class="row-syn-ant">
-        <div class="chip-group"><div class="chip-label">সমার্থক</div> ${synText || '—'}</div>
-        <div class="chip-group"><div class="chip-label">বিপরীতার্থক</div> ${antText || '—'}</div>
-      </div>
-      <div class="example-box">✍️ উদাহরণ: ${escapeHtml(item.example || '')}</div>
-    `;
-    return cardDiv;
-  }
-  
-  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-  
-  function clearFeed() {
-    document.getElementById('wordSection').style.display = 'none';
-    document.getElementById('phraseSection').style.display = 'none';
-    document.getElementById('idiomSection').style.display = 'none';
-    document.getElementById('emptyMessage').style.display = 'block';
-  }
-  
-  // ------------- AI FETCH with specific count: 15 words, 3 phrases, 2 idioms ----------
-  async function doFetch() {
-    const existingSlot = loadSlot(activeSource);
-    if(existingSlot && !isAdminMode()) {
-      alert('এই স্লটে ইতিমধ্যে ভোকাবুলারি লোড করা আছে! পরবর্তী আপডেটের জন্য অপেক্ষা করুন। (admin unlock করতে পারেন)');
-      return;
-    }
-    const btn = document.getElementById('mainFetchBtn');
-    btn.disabled = true;
-    document.getElementById('loadingArea').style.display = 'block';
-    document.getElementById('emptyMessage').style.display = 'none';
-    clearFeed();
-    const steps = ['step1','step2','step3','step4'];
-    steps.forEach(s=>document.getElementById(s).classList.remove('active'));
-    let stepIdx=0;
-    const stepInt = setInterval(()=>{
-      if(stepIdx<steps.length) {
-        document.getElementById(steps[stepIdx]).classList.add('active');
-        stepIdx++;
-      } else clearInterval(stepInt);
-    }, 1800);
-    
-    const todayStr = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    const seenWords = getSeenWords();
-    const seenExclude = seenWords.slice(-120).join(', ');
-    
-    const sourceTopics = {
-      "The Daily Star": "governance, democracy, human rights, economic policy, diplomacy, social issues in Bangladesh",
-      "New Age Bangladesh": "politics, civil society, environment, education, labor rights in Bangladesh",
-      "The Business Standard Bangladesh": "economy, trade, finance, investment, banking, industry in Bangladesh"
-    };
-    const topicFocus = sourceTopics[activeSource] || "governance and economy";
-    const editorialLink = EDITORIAL_LINKS[activeSource]?.url || "https://www.thedailystar.net/opinion/editorial";
-
-    const promptInstruction = `You are a vocabulary expert for Bangladesh government job exams (BCS/Bank/Public Service).
-
-Source: "${activeSource}" newspaper (Bangladesh)
-Editorial URL: ${editorialLink}
-Topic focus: ${topicFocus}
-Date: ${todayStr}
-
-Generate vocabulary as if carefully extracted from today's real editorial of this newspaper. Make the words and phrases genuinely reflect the kind of language used in this specific newspaper's editorial style.
-
-STRICTLY EXCLUDE these already-learned words: ${seenExclude || 'none yet'}
-
-Return ONLY a valid JSON array with EXACTLY:
-- 15 objects with "type": "word" — advanced/formal words from editorial context
-- 3 objects with "type": "phrase" — multi-word expressions (e.g. "fiscal consolidation", "rule of law", "vested interests")
-- 2 objects with "type": "idiom" — common English idioms (e.g. "bite the bullet", "burning issue")
-Total: exactly 20 objects.
-
-Each object MUST have:
-{
-  "type": "word"|"phrase"|"idiom",
-  "entry": "the English word/phrase/idiom",
-  "bangla": "বাংলা অর্থ ও ব্যাখ্যা ২-৩ বাক্যে",
-  "synonyms": ["2-4 synonyms"],
-  "antonyms": ["0-3 antonyms or []"],
-  "example": "One clear example sentence showing usage in an editorial context."
+    localStorage.setItem(HK, JSON.stringify(h));
+  } catch(e) {}
 }
 
-Return ONLY the raw JSON array. No markdown, no explanation, no extra text.`;
-    
-    try {
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${GROQ_API_KEY}`
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          temperature: 0.4,
-          max_tokens: 4500,
-          messages: [
-            {role:"system", content:"You are expert. Always return valid JSON array only, with exactly 15 words, 3 phrases, 2 idioms. No extra text."},
-            {role:"user", content: promptInstruction}
-          ]
-        })
-      });
-      clearInterval(stepInt);
-      steps.forEach(s=>document.getElementById(s).classList.remove('active'));
-      const jsonData = await response.json();
-      if(jsonData.error) throw new Error(jsonData.error.message);
-      const rawContent = jsonData.choices[0].message.content;
-      let clean = rawContent.replace(/```json|```/g,'').trim();
-      const match = clean.match(/\[[\s\S]*\]/);
-      if(!match) throw new Error('JSON array not found');
-      const parsed = JSON.parse(match[0]);
-      if(!Array.isArray(parsed) || parsed.length === 0) throw new Error('Invalid vocab');
-      // validate counts
-      const wordsArr = parsed.filter(v=>v.type==='word');
-      const phrasesArr = parsed.filter(v=>v.type==='phrase');
-      const idiomsArr = parsed.filter(v=>v.type==='idiom');
-      if(wordsArr.length !== 15) console.warn(`Expected 15 words got ${wordsArr.length}, still using.`);
-      if(phrasesArr.length !== 3) console.warn(`Phrases expected 3 got ${phrasesArr.length}`);
-      if(idiomsArr.length !== 2) console.warn(`Idioms expected 2 got ${idiomsArr.length}`);
-      
-      currentVocab = parsed;
-      saveSlot(activeSource, currentVocab);
-      addSeenWords(currentVocab);
-      const todayKey = new Date().toISOString().split('T')[0];
-      saveHistoryEntry(todayKey, activeSource, currentVocab);
-      renderFeed(currentVocab);
-      document.getElementById('loadingArea').style.display = 'none';
-      document.getElementById('updateStatus').innerHTML = `✅ লোড হয়েছে: ${new Date().toLocaleTimeString()}`;
-      // update flash queue
-      fcQueue = [...currentVocab];
-      fcIndex = 0;
-      updateFetchButtonState();
-    } catch(err) {
-      clearInterval(stepInt);
-      document.getElementById('loadingArea').style.display = 'none';
-      document.getElementById('emptyMessage').innerHTML = `<div class="empty-icon">⚠️</div><p>ত্রুটি: ${err.message}<br>আবার চেষ্টা করুন।</p>`;
-      document.getElementById('emptyMessage').style.display = 'block';
-      btn.disabled = false;
-    } finally { btn.disabled = false; updateFetchButtonState(); }
-  }
-  
-  // ---------- FLASHCARD LOGIC ----------
-  function initFlashcard() {
-    if(!currentVocab.length) {
-      const cached = loadSlot(activeSource);
-      if(cached && cached.length) currentVocab = cached;
-      else {
-        document.getElementById('fcMainArea').style.display = 'none';
-        document.getElementById('fcResultBox').style.display = 'none';
-        document.getElementById('fcEmptyMsg').style.display = 'block';
-        return;
-      }
-    }
-    fcQueue = [...currentVocab];
-    fcIndex = 0; fcEasyCount = 0; fcHardCount = 0;
-    document.getElementById('fcEmptyMsg').style.display = 'none';
-    document.getElementById('fcResultBox').style.display = 'none';
-    document.getElementById('fcMainArea').style.display = 'block';
-    loadFlashCardItem();
-  }
-  function loadFlashCardItem() {
-    if(fcIndex >= fcQueue.length) {
-      showFlashResult();
-      return;
-    }
-    fcRevealed = false;
-    const item = fcQueue[fcIndex];
-    document.getElementById('fcCounter').innerText = `${fcIndex+1} / ${fcQueue.length}`;
-    const percent = (fcIndex / fcQueue.length) * 100;
-    document.getElementById('fcFill').style.width = percent+'%';
-    document.getElementById('fcTypeTag').innerText = item.type.toUpperCase();
-    document.getElementById('fcWord').innerText = item.entry;
-    document.getElementById('fcBanglaDef').innerHTML = item.bangla || '';
-    document.getElementById('fcSyn').innerHTML = (item.synonyms || []).map(s=>`<span class="chip">${escapeHtml(s)}</span>`).join('');
-    document.getElementById('fcAnt').innerHTML = (item.antonyms || []).map(a=>`<span class="chip">${escapeHtml(a)}</span>`).join('');
-    document.getElementById('fcExample').innerHTML = item.example || '';
-    document.getElementById('fcAnswerArea').classList.remove('show');
-    document.getElementById('fcActions').style.display = 'none';
-  }
-  function revealAnswer() {
-    if(fcRevealed) return;
-    fcRevealed = true;
-    document.getElementById('fcAnswerArea').classList.add('show');
-    document.getElementById('fcActions').style.display = 'flex';
-  }
-  function markEasy() { fcEasyCount++; fcIndex++; loadFlashCardItem(); }
-  function markHard() { fcHardCount++; fcIndex++; loadFlashCardItem(); }
-  function showFlashResult() {
-    document.getElementById('fcMainArea').style.display = 'none';
-    const total = fcQueue.length;
-    document.getElementById('finalScore').innerHTML = `${fcEasyCount} / ${total}`;
-    document.getElementById('resultStats').innerHTML = `✅ জানি: ${fcEasyCount} &nbsp;&nbsp; 😓 পুনরায় প্রয়োজন: ${fcHardCount}`;
-    document.getElementById('fcResultBox').style.display = 'block';
-  }
-  function restartFlash() {
-    fcQueue = [...currentVocab];
-    fcIndex = 0; fcEasyCount=0; fcHardCount=0;
-    document.getElementById('fcResultBox').style.display = 'none';
-    document.getElementById('fcMainArea').style.display = 'block';
-    loadFlashCardItem();
-  }
-  
-  // HISTORY
-  function renderHistory() {
-    const hist = getHistoryStore();
-    const container = document.getElementById('historyContainer');
-    const keys = Object.keys(hist).sort().reverse();
-    if(!keys.length) { container.innerHTML = '<div class="empty">কোনো ইতিহাস নেই</div>'; return; }
-    container.innerHTML = '';
-    keys.forEach(k => {
-      const entry = hist[k];
-      const div = document.createElement('div');
-      div.className = 'history-item';
-      div.innerHTML = `
-        <div class="history-head" onclick="this.nextElementSibling.classList.toggle('open')">
-          <span>📅 ${entry.day} | ${entry.src}</span>
-          <span>${entry.count} টি ▼</span>
-        </div>
-        <div class="history-body">
-          ${entry.items.map(it=>`<span class="hist-tag">${escapeHtml(it.entry)} (${it.type})</span>`).join('')}
-        </div>
-      `;
-      container.appendChild(div);
-    });
-  }
-  
-  // VIEW NAVIGATION
-  function showView(viewId) {
-    document.getElementById('feedSection').style.display = viewId === 'feed' ? 'block' : 'none';
-    document.getElementById('flashSection').style.display = viewId === 'flash' ? 'block' : 'none';
-    document.getElementById('historySection').style.display = viewId === 'history' ? 'block' : 'none';
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.nav-btn[data-view="${viewId}"]`).classList.add('active');
-    if(viewId === 'flash') initFlashcard();
-    if(viewId === 'history') renderHistory();
-  }
-  
-  function sourceSwitch(btnEl) {
-    document.querySelectorAll('.src-option').forEach(b=>b.classList.remove('active'));
-    btnEl.classList.add('active');
-    activeSource = btnEl.dataset.src;
-    const cached = loadSlot(activeSource);
-    if(cached && cached.length) {
-      currentVocab = cached;
-      renderFeed(cached);
-      document.getElementById('updateStatus').innerHTML = '📀 ক্যাশ লোড';
-    } else {
-      clearFeed();
-      currentVocab = [];
-    }
-    updateFetchButtonState();
-  }
-  
-  // Admin force 
-  function adminUnlock() {
-    const pwd = prompt('প্রশাসক পাসওয়ার্ড দিন:');
-    if(pwd === ADMIN_PASS) {
-      sessionStorage.setItem('admin_mode','1');
-      alert('🔓 অ্যাডমিন মোড চালু হয়েছে। এখনই নতুন ভোকাবুলারি আনা যাবে।');
-      updateFetchButtonState();
-    } else alert('ভুল পাসওয়ার্ড');
-  }
-  window.adminUnlockGlobal = adminUnlock;
-  // hack for history toggles 
-  window.toggleHistory = function(el) { el.nextElementSibling.classList.toggle('open'); };
-  
-  // EVENT LISTENERS
-  document.getElementById('mainFetchBtn').addEventListener('click', doFetch);
-  document.getElementById('flipCard').addEventListener('click', revealAnswer);
-  document.getElementById('hardBtn').addEventListener('click', markHard);
-  document.getElementById('easyBtn').addEventListener('click', markEasy);
-  document.getElementById('fcRestartBtn').addEventListener('click', restartFlash);
-  document.querySelectorAll('.src-option').forEach(btn => btn.addEventListener('click', function(){ sourceSwitch(this); }));
-  document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', function(){ showView(this.dataset.view); }));
-  document.getElementById('displayDate').innerText = new Date().toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'});
-  
-  // initial load
-  (function init() {
-    startAutoTimer();
-    const cachedDefault = loadSlot(activeSource);
-    if(cachedDefault && cachedDefault.length) {
-      currentVocab = cachedDefault;
-      renderFeed(cachedDefault);
-      document.getElementById('updateStatus').innerHTML = '📦 ক্যাশ থেকে লোড';
-    } else clearFeed();
-    updateFetchButtonState();
+function loadDay(src) {
+  try {
+    const d = JSON.parse(localStorage.getItem(SK) || 'null');
+    if (d && d.day === dayKey() && d.src === src) return d.vocab;
+  } catch(e) {}
+  return null;
+}
+
+function getHist() {
+  try { return JSON.parse(localStorage.getItem(HK) || '{}'); } catch(e) { return {}; }
+}
+
+// TIMER
+function startTimer() {
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(8,0,0,0);
+  if (now >= next) next.setDate(next.getDate()+1);
+  setTimeout(() => { doFetch(true); setInterval(() => doFetch(true), 864e5); }, next - now);
+  const el = document.getElementById('timer-bar');
+  (function tick() {
+    const d = next - new Date();
+    if (d <= 0) { el.textContent = '⚡ আপডেট হচ্ছে...'; return; }
+    const h = Math.floor(d/36e5), m = Math.floor((d%36e5)/6e4), s = Math.floor((d%6e4)/1e3);
+    el.textContent = `⏰ পরবর্তী auto-update: ${h}ঘ ${m}মি ${s}সে পরে (সকাল ৮:০০)`;
+    setTimeout(tick, 1000);
   })();
+}
+
+// SOURCE
+function pickSrc(el) {
+  document.querySelectorAll('.src-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  activeSrc = el.dataset.src;
+  const c = loadSlot(activeSrc);
+  if (c) { allVocab = c; renderVocab(c); document.getElementById('last-upd').textContent = '✅ ক্যাশ থেকে লোড'; }
+  else clearFeed();
+  updateFetchBtn();
+}
+
+// FETCH
+async function doFetch(auto = false) {
+  // Admin check if slot already filled
+  const existing = loadSlot(activeSrc);
+  if (existing && !isAdminUnlocked()) {
+    if (!checkAdmin()) return;
+  }
+
+  const btn = document.getElementById('fetch-btn');
+  btn.disabled = true;
+  document.getElementById('fetch-label').textContent = 'আনছি...';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('empty-state').style.display = 'none';
+  clearSecs();
+
+  const ids = ['s1','s2','s3','s4'];
+  let si = 0;
+  const st = setInterval(() => {
+    if (si > 0) document.getElementById(ids[si-1]).classList.remove('on');
+    if (si < ids.length) { document.getElementById(ids[si]).classList.add('on'); si++; }
+    else clearInterval(st);
+  }, 1900);
+
+  const today = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  const seenWords = getSeenWords();
+  const seenList = seenWords.slice(-100).join(', ');
+  const slot = getCurrentSlot();
+  const slotNames = ['সকাল', 'দুপুর', 'রাত'];
+  const slotName = slotNames[slot] || '';
+
+  const prompt = `You are a vocabulary expert for Bangladesh government job (BCS/Bank/Public Service) exam preparation.
+
+Today is ${today} (${slotName} session). Generate vocabulary as if extracted from a real editorial of "${activeSrc}" newspaper Bangladesh.
+
+ALREADY SEEN WORDS - DO NOT INCLUDE THESE: ${seenList || 'none yet'}
+
+Return ONLY a valid JSON array, no text before or after:
+[
+  {
+    "type": "word",
+    "entry": "the English word",
+    "bangla": "বাংলা অর্থ ও ব্যাখ্যা ২-৩ বাক্যে বাংলায়",
+    "synonyms": ["s1","s2","s3"],
+    "antonyms": ["a1","a2"],
+    "example": "A natural example sentence using this word."
+  }
+]
+
+STRICT RULES:
+- type must be exactly: "word", "phrase", or "idiom"
+- Include 8-10 words (type:"word") — NEVER use words from ALREADY SEEN list
+- Include 3-4 phrases (type:"phrase") — e.g. "fiscal deficit", "rule of law", "vested interest"
+- Include 2-3 idioms (type:"idiom") — e.g. "burn the midnight oil", "bite the bullet"
+- Skip very common words (the, is, have, make, get, said, etc.)
+- Focus on advanced vocabulary common in BCS/bank exams
+- antonyms: use [] if no clear antonym
+- Return ONLY the raw JSON array`;
+
+  try {
+    localStorage.setItem(SK, JSON.stringify({ day: dayKey(), src, vocab }));
+    let h = getHist();
+    h[dayKey() + '_' + src.replace(/\s+/g,'_')] = {
+      day: dayKey(), src, count: vocab.length,
+      items: vocab.map(v => ({ e: v.entry, t: v.type }))
+    };
+    localStorage.setItem(HK, JSON.stringify(h));
+  } catch(e) {}
+}
+
+function loadDay(src) {
+  try {
+    const d = JSON.parse(localStorage.getItem(SK) || 'null');
+    if (d && d.day === dayKey() && d.src === src) return d.vocab;
+  } catch(e) {}
+  return null;
+}
+
+function getHist() {
+  try { return JSON.parse(localStorage.getItem(HK) || '{}'); } catch(e) { return {}; }
+}
+
+// TIMER
+function startTimer() {
+  const now = new Date();
+  const next = new Date(now);
+  next.setHours(8,0,0,0);
+  if (now >= next) next.setDate(next.getDate()+1);
+  setTimeout(() => { doFetch(true); setInterval(() => doFetch(true), 864e5); }, next - now);
+  const el = document.getElementById('timer-bar');
+  (function tick() {
+    const d = next - new Date();
+    if (d <= 0) { el.textContent = '⚡ আপডেট হচ্ছে...'; return; }
+    const h = Math.floor(d/36e5), m = Math.floor((d%36e5)/6e4), s = Math.floor((d%6e4)/1e3);
+    el.textContent = `⏰ পরবর্তী auto-update: ${h}ঘ ${m}মি ${s}সে পরে (সকাল ৮:০০)`;
+    setTimeout(tick, 1000);
+  })();
+}
+
+// SOURCE
+function pickSrc(el) {
+  document.querySelectorAll('.src-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  activeSrc = el.dataset.src;
+  const c = loadSlot(activeSrc);
+  if (c) { allVocab = c; renderVocab(c); document.getElementById('last-upd').textContent = '✅ ক্যাশ থেকে লোড'; }
+  else clearFeed();
+  updateFetchBtn();
+}
+
+// FETCH
+async function doFetch(auto = false) {
+  // Admin check if slot already filled
+  const existing = loadSlot(activeSrc);
+  if (existing && !isAdminUnlocked()) {
+    if (!checkAdmin()) return;
+  }
+
+  const btn = document.getElementById('fetch-btn');
+  btn.disabled = true;
+  document.getElementById('fetch-label').textContent = 'আনছি...';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('empty-state').style.display = 'none';
+  clearSecs();
+
+  const ids = ['s1','s2','s3','s4'];
+  let si = 0;
+  const st = setInterval(() => {
+    if (si > 0) document.getElementById(ids[si-1]).classList.remove('on');
+    if (si < ids.length) { document.getElementById(ids[si]).classList.add('on'); si++; }
+    else clearInterval(st);
+  }, 1900);
+
+  const today = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  const prompt = `You are a vocabulary expert for Bangladesh government job (BCS/Bank/Public Service) exam preparation.
+
+Today is ${today}. Use web search to find and read the latest editorial from "${activeSrc}" newspaper Bangladesh (published today or most recently available).
+
+After reading, extract vocabulary and return ONLY a valid JSON array with no text before or after it:
+
+[
+  {
+    "type": "word",
+    "entry": "the English word",
+    "bangla": "বাংলা অর্থ ও ব্যাখ্যা ২-৩ বাক্যে বাংলায়",
+    "synonyms": ["s1","s2","s3"],
+    "antonyms": ["a1","a2"],
+    "example": "A natural example sentence using this word."
+  }
+]
+
+STRICT RULES:
+- type must be exactly one of: "word", "phrase", "idiom"
+- Always extract 10-12 words (type:"word")
+- Extract phrases (type:"phrase") ONLY if they naturally appear in the editorial — 3-5 max
+- Extract idioms (type:"idiom") ONLY if they naturally appear in the editorial — 1-2 max
+- If no phrases exist in editorial, include ZERO phrase entries. Same for idioms.
+- Skip very common words (the, is, have, make, get, said, etc.)
+- Focus on advanced/formal vocabulary common in BCS/bank exams
+- antonyms: use empty array [] if no clear antonym
+- Return ONLY the raw JSON array, absolutely nothing else before or after`;
+
+  try {
+    const GROQ_KEY = "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";
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + GROQ_KEY
+      },
+      body: JSON.stringify({
+        model:"llama-3.3-70b-versatile",
+        temperature:0.3,
+        max_tokens:4000,
+        messages:[
+          {role:"system", content:"You are a vocabulary expert for Bangladesh BCS/Bank exam preparation. Always return valid JSON arrays only, no extra text."},
+          {role:"user", content:prompt}
+        ]
+      })
+    });
+
+    clearInterval(st);
+    ids.forEach(id => document.getElementById(id).classList.remove('on'));
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const raw = data.choices?.[0]?.message?.content || '';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const m = clean.match(/\[[\s\S]*\]/);
+    if (!m) throw new Error('Response এ JSON পাওয়া যায়নি');
+    const vocab = JSON.parse(m[0]);
+
+    allVocab = vocab;
+    saveSlot(activeSrc, vocab);
+    addSeenWords(vocab);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('last-upd').textContent =
+      `✅ ${activeSrc} · ${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2,'0')}`;
+    renderVocab(vocab);
+    updateFetchBtn();
+
+  } catch(err) {
+    clearInterval(st);
+    document.getElementById('loading').style.display = 'none';
+    btn.disabled = false;
+    document.getElementById('fetch-label').textContent = '🔄 আবার চেষ্টা করো';
+    document.getElementById('empty-state').style.display = 'block';
+    document.getElementById('empty-state').innerHTML =
+      `<div class="empty-icon">⚠️</div><p>সমস্যা হয়েছে:<br><small>${err.message}</small><br><br>আবার চেষ্টা করুন।</p>`;
+  }
+}
+
+// RENDER
+function renderVocab(vocab) {
+  clearSecs();
+  document.getElementById('empty-state').style.display = 'none';
+  const words = vocab.filter(v=>v.type==='word');
+  const phrases = vocab.filter(v=>v.type==='phrase');
+  const idioms = vocab.filter(v=>v.type==='idiom');
+  let n = 1;
+  if (words.length) {
+    document.getElementById('sec-w').style.display = 'block';
+    document.getElementById('cnt-w').textContent = words.length+'টি';
+    words.forEach((v,i) => document.getElementById('box-w').appendChild(mkCard(v,n++,i)));
+  }
+  if (phrases.length) {
+    document.getElementById('sec-p').style.display = 'block';
+    document.getElementById('cnt-p').textContent = phrases.length+'টি';
+    phrases.forEach((v,i) => document.getElementById('box-p').appendChild(mkCard(v,n++,i)));
+  }
+  if (idioms.length) {
+    document.getElementById('sec-i').style.display = 'block';
+    document.getElementById('cnt-i').textContent = idioms.length+'টি';
+    idioms.forEach((v,i) => document.getElementById('box-i').appendChild(mkCard(v,n++,i)));
+  }
+  fcQueue = [...vocab]; fcIdx = 0;
+}
+
+function mkCard(v, num, ai) {
+  const el = document.createElement('div');
+  el.className = 'vcard';
+  el.style.animationDelay = (ai*.05)+'s';
+  const tc = v.type==='idiom'?'ti':v.type==='phrase'?'tp':'tw';
+  const tl = v.type.toUpperCase();
+  const syn = (v.synonyms||[]).map(s=>`<span class="chip chs">${s}</span>`).join('');
+  const ant = (v.antonyms||[]).map(a=>`<span class="chip cha">${a}</span>`).join('');
+  el.innerHTML = `
+    <span class="ctag ${tc}">${tl}</span>
+    <span class="cnum">#${String(num).padStart(2,'0')}</span>
+    <div class="ctitle">${v.entry}</div>
+    <div class="flabel">বাংলা অর্থ</div>
+    <div class="fbn">${v.bangla}</div>
+    <div class="crow">
+      <div>
+        <div class="flabel">Synonyms</div>
+        <div class="chips">${syn||'<span style="font-size:.75rem;color:var(--muted)">—</span>'}</div>
+      </div>
+      <div>
+        <div class="flabel">Antonyms</div>
+        <div class="chips">${ant||'<span style="font-size:.75rem;color:var(--muted)">—</span>'}</div>
+      </div>
+    </div>
+    <div class="exbox">${v.example}</div>`;
+  return el;
+}
+
+// FLASHCARD
+function initFC() {
+  if (!fcQueue.length) {
+    document.getElementById('fc-main').style.display='none';
+    document.getElementById('fresult').style.display='none';
+    document.getElementById('fc-empty').style.display='block';
+    return;
+  }
+  document.getElementById('fc-empty').style.display='none';
+  document.getElementById('fresult').style.display='none';
+  document.getElementById('fc-main').style.display='block';
+  fcEasy=0; fcHard=0; loadFC();
+}
+
+function loadFC() {
+  if (fcIdx >= fcQueue.length) { showFCResult(); return; }
+  const v = fcQueue[fcIdx];
+  fcRevealed = false;
+  document.getElementById('fptxt').textContent = `${fcIdx+1} / ${fcQueue.length}`;
+  document.getElementById('fpfill').style.width = ((fcIdx/fcQueue.length)*100)+'%';
+  const tb = document.getElementById('ftype');
+  tb.textContent = v.type.toUpperCase();
+  tb.className = 'fbadge '+(v.type==='idiom'?'ti':v.type==='phrase'?'tp':'tw');
+  document.getElementById('fword').textContent = v.entry;
+  document.getElementById('fbn').textContent = v.bangla;
+  document.getElementById('fsyn').innerHTML = (v.synonyms||[]).map(s=>`<span class="chip chs">${s}</span>`).join('');
+  document.getElementById('fant').innerHTML = (v.antonyms||[]).map(a=>`<span class="chip cha">${a}</span>`).join('');
+  document.getElementById('fex').textContent = v.example||'';
+  document.getElementById('fans').classList.remove('show');
+  document.getElementById('facts').style.display='none';
+}
+
+function fcReveal() {
+  if (fcRevealed) return;
+  fcRevealed=true;
+  document.getElementById('fans').classList.add('show');
+  document.getElementById('facts').style.display='flex';
+}
+
+function fcMark(r) {
+  if (r==='easy') fcEasy++; else fcHard++;
+  fcIdx++; loadFC();
+}
+
+function showFCResult() {
+  document.getElementById('fc-main').style.display='none';
+  document.getElementById('fscore').textContent = `${fcEasy} / ${fcQueue.length}`;
+  document.getElementById('fdetail').textContent = `✅ জানি: ${fcEasy}   😓 কঠিন: ${fcHard}`;
+  document.getElementById('fresult').style.display='block';
+}
+
+function fcRestart() {
+  fcQueue = [...fcQueue].sort(()=>Math.random()-.5);
+  fcIdx=0; fcEasy=0; fcHard=0;
+  document.getElementById('fresult').style.display='none';
+  document.getElementById('fc-main').style.display='block';
+  loadFC();
+}
+
+// HISTORY
+function renderHist() {
+  const h = getHist();
+  const keys = Object.keys(h).sort().reverse();
+  const box = document.getElementById('hist-box');
+  if (!keys.length) {
+    box.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted)"><p>এখনো ইতিহাস নেই।</p></div>';
+    return;
+  }
+  box.innerHTML='';
+  keys.forEach(k => {
+    const e = h[k];
+    const chips = e.items.map(i => {
+      const cl = i.t==='idiom'?'ti':i.t==='phrase'?'tp':'tw';
+      return `<span class="hchip ${cl}">${i.e}</span>`;
+    }).join('');
+    const d = document.createElement('div');
+    d.className='hcard';
+    d.innerHTML=`
+      <div class="hhead" onclick="this.nextElementSibling.classList.toggle('open')">
+        <h4>📅 ${e.day} · ${e.src}</h4>
+        <span style="font-size:.7rem">${e.count}টি ▼</span>
+      </div>
+      <div class="hbody"><div class="hchips">${chips}</div></div>`;
+    box.appendChild(d);
+  });
+}
+
+// VIEW
+function showView(v) {
+  ['feed','flashcard','history'].forEach((n,i) => {
+    document.getElementById(n+'-view').style.display = n===v?'block':'none';
+    document.querySelectorAll('.nav-tab')[i].classList.toggle('active', n===v);
+  });
+  if (v==='flashcard') initFC();
+  if (v==='history') renderHist();
+}
+
+function clearFeed() {
+  clearSecs();
+  document.getElementById('empty-state').style.display='block';
+  document.getElementById('empty-state').innerHTML=
+    '<div class="empty-icon">📰</div><p>source বেছে নিন, তারপর button চাপুন।</p>';
+}
+
+function clearSecs() {
+  ['sec-w','sec-p','sec-i'].forEach(id=>document.getElementById(id).style.display='none');
+  ['box-w','box-p','box-i'].forEach(id=>document.getElementById(id).innerHTML='');
+}
+
+// ── SCHEDULE: 3 times daily (8AM, 2PM, 8PM) ──
+const SCHEDULE_HOURS = [8, 14, 20];
+const ADMIN_PASS = "vocab2025admin";
+const SEEN_WORDS_KEY = 'vocabscroll_seen_words';
+
+function getSeenWords() {
+  return JSON.parse(localStorage.getItem(SEEN_WORDS_KEY) || '[]');
+}
+function addSeenWords(vocab) {
+  const seen = getSeenWords();
+  vocab.forEach(v => { if (!seen.includes(v.entry)) seen.push(v.entry); });
+  // Keep last 500 words only
+  if (seen.length > 500) seen.splice(0, seen.length - 500);
+  localStorage.setItem(SEEN_WORDS_KEY, JSON.stringify(seen));
+}
+
+function getCurrentSlot() {
+  const h = new Date().getHours();
+  if (h >= 20) return 2;
+  if (h >= 14) return 1;
+  if (h >= 8) return 0;
+  return -1; // before 8AM
+}
+
+function getSlotKey(src, slot) {
+  const d = new Date().toISOString().split('T')[0];
+  return 'vocab_' + src + '_' + d + '_slot' + slot;
+}
+
+function loadSlot(src) {
+  const slot = getCurrentSlot();
+  if (slot < 0) return null;
+  const key = getSlotKey(src, slot);
+  const raw = localStorage.getItem(key);
+  return raw ? JSON.parse(raw) : null;
+}
+
+function saveSlot(src, vocab) {
+  const slot = getCurrentSlot();
+  if (slot < 0) return;
+  const key = getSlotKey(src, slot);
+  localStorage.setItem(key, JSON.stringify(vocab));
+}
+
+function isAdminUnlocked() {
+  return sessionStorage.getItem('admin_unlocked') === '1';
+}
+
+function checkAdmin() {
+  if (isAdminUnlocked()) return true;
+  const p = prompt('🔐 Admin Password:');
+  if (p === ADMIN_PASS) {
+    sessionStorage.setItem('admin_unlocked', '1');
+    return true;
+  }
+  alert('❌ ভুল পাসওয়ার্ড!');
+  return false;
+}
+
+function canFetch() {
+  // Check if current slot already has data
+  const slot = getCurrentSlot();
+  if (slot < 0) return false;
+  const existing = loadSlot(activeSrc);
+  return !existing;
+}
+
+function getNextUpdateTime() {
+  const now = new Date();
+  const h = now.getHours();
+  let nextH = SCHEDULE_HOURS.find(sh => sh > h);
+  if (!nextH) {
+    // Next day 8AM
+    nextH = 8;
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(8, 0, 0, 0);
+    const diff = tomorrow - now;
+    const hh = Math.floor(diff/3600000);
+    const mm = Math.floor((diff%3600000)/60000);
+    return hh + 'ঘ ' + mm + 'মি পরে (আগামীকাল সকাল ৮:০০)';
+  }
+  const diff = (nextH * 60) - (h * 60 + now.getMinutes());
+  const hh = Math.floor(diff/60);
+  const mm = diff % 60;
+  return hh + 'ঘ ' + mm + 'মি পরে (' + (nextH < 12 ? 'সকাল' : nextH < 17 ? 'দুপুর' : 'রাত') + ' ' + (nextH > 12 ? nextH-12 : nextH) + ':০০)';
+}
+
+// INIT
+window.addEventListener('DOMContentLoaded', () => {
+  startTimer();
+  const now = new Date();
+  document.getElementById('today-date').textContent =
+    now.toLocaleDateString('bn-BD',{day:'numeric',month:'long',year:'numeric'});
+
+  // Load cached slot
+  const cached = loadSlot(activeSrc);
+  if (cached) {
+    allVocab = cached; renderVocab(cached);
+    document.getElementById('last-upd').textContent = '✅ ক্যাশ থেকে লোড হয়েছে';
+    document.getElementById('fetch-label').textContent = '✅ আজকের vocab লোড হয়েছে';
+    document.getElementById('fetch-btn').disabled = true;
+    updateFetchBtn();
+  } else {
+    updateFetchBtn();
+  }
+});
+
+function updateFetchBtn() {
+  const btn = document.getElementById('fetch-btn');
+  const label = document.getElementById('fetch-label');
+  const slot = getCurrentSlot();
+
+  if (slot < 0) {
+    btn.disabled = true;
+    label.textContent = '⏰ সকাল ৮টায় আসবে';
+    return;
+  }
+
+  const existing = loadSlot(activeSrc);
+  if (existing && !isAdminUnlocked()) {
+    btn.disabled = true;
+    label.textContent = '⏰ পরবর্তী আপডেট: ' + getNextUpdateTime();
+    return;
+  }
+
+  btn.disabled = false;
+  label.textContent = isAdminUnlocked() ? '🔓 Admin: এখনই আনো' : '🔍 Vocabulary আনো';
+}
 </script>
 </body>
 </html>
